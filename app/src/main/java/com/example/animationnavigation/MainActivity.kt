@@ -28,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -39,7 +40,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AnimationNavigationTheme {
-                Router()
+                val navController = rememberNavController()
+                Router(navController)
             }
         }
     }
@@ -48,8 +50,7 @@ class MainActivity : ComponentActivity() {
 val LocalNavController = compositionLocalOf<NavController> { error("No nav controller provided") }
 
 @Composable
-fun Router() {
-    val navController = rememberNavController()
+fun Router(navController: NavHostController) {
     CompositionLocalProvider(LocalNavController provides navController) {
         NavHost(navController = navController, startDestination = "home", enterTransition = {
             slideInHorizontally(
